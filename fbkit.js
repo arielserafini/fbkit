@@ -1,5 +1,8 @@
 var FBKit = (function(FB){
-  var exports = {};
+  var exports = {},
+    status = 'unknown',
+    user = {},
+    authResponse;
 
   var init = function() {
 
