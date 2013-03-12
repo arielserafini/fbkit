@@ -14,6 +14,7 @@ var FBKit = (function(FB){
     getLoginStatus();
 
     exports.login = login;
+    exports.user = user;
 
     return exports;
   };
@@ -25,14 +26,11 @@ var FBKit = (function(FB){
       status = response.status;
 
       if (response.status === 'connected') {
-          // the user is logged in and has authenticated your
-          // app, and response.authResponse supplies
-          // the user's ID, a valid access token, a signed
-          // request, and the time the access token
-          // and signed request each expire
           authResponse = response.authResponse;
           user.id = authResponse.userID;
-          console.log(status, authResponse, user);
+          console.log('Logged in & authorized.');
+
+          getUserInfo();
 
         } else if (response.status === 'not_authorized') {
           console.log('User is logged in, but did not authorize the app.');
@@ -47,6 +45,15 @@ var FBKit = (function(FB){
         }
       });
 
+  };
+
+  // Get user data for the current user
+  var getUserInfo = function() {
+    FB.api('/me', function(response) {
+      user = response;
+
+      console.log('Logged in as ' + user.name);
+    });
   };
 
   // Handles login and permissions.
