@@ -1,10 +1,11 @@
-var FBKit = (function(FB){
+var FBKit = (function(){
   var exports = {},
     status = 'unknown',
     user = {},
     authResponse;
 
   var init = function() {
+    var FB = window.FB;
 
     // Fails if the FB object is not found.
     if (!FB) {
@@ -62,6 +63,7 @@ var FBKit = (function(FB){
     FB.login(function(response) {
       if (response.authResponse) {
         console.log('Login/authorization successful!');
+        getUserInfo();
 
         if (callback) {
           callback.apply(FBKit, params);
@@ -73,6 +75,6 @@ var FBKit = (function(FB){
 
   };
 
-  return init();
+  return init;
 
-}(window.FB));
+}());
