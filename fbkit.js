@@ -15,7 +15,7 @@ var FBKit = (function(){
     getLoginStatus();
 
     exports.login = login;
-    exports.user = user;
+    exports.getUser = getUser;
 
     return exports;
   };
@@ -46,6 +46,11 @@ var FBKit = (function(){
         }
       });
 
+  };
+
+  // Exposes the user object
+  var getUser = function() {
+    return user;
   };
 
   // Get user data for the current user
