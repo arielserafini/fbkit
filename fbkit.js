@@ -5,7 +5,8 @@ var FBKit = (function(){
     status = 'unknown',
     user = {},
     authResponse,
-    permissions = [];
+    permissions = [],
+    grantedPermissions;
 
   var init = function() {
     var FB = window.FB;
@@ -19,6 +20,7 @@ var FBKit = (function(){
 
     exports.login = login;
     exports.getUser = getUser;
+    exports.postImage = postImage;
 
     return exports;
   };
@@ -62,6 +64,14 @@ var FBKit = (function(){
     return permissions.join(',');
   };
 
+  var getGrantedPermissions = function() {
+    FB.api('/me/permissions', function(response) {
+      grantedPermissions = response;
+
+      console.log('granted: ', response);
+    });
+  };
+
   // Exposes the user object
   var getUser = function() {
     return user;
@@ -73,16 +83,20 @@ var FBKit = (function(){
       user = response;
 
       console.log('Logged in as ' + user.name);
+      getGrantedPermissions();
     });
   };
 
   // Handles login and permissions.
   var login = function(callback, params) {
     console.log('Requesting login...');
+    console.log(getPermissions());
+
     FB.login(function(response) {
       if (response.authResponse) {
         console.log('Login/authorization successful!');
         getUserInfo();
+        getGrantedPermissions();
 
         if (callback) {
           callback.apply(FBKit, params);
@@ -91,6 +105,29 @@ var FBKit = (function(){
         // Something went wrong.
       }
     }, { scope: getPermissions() });
+
+  };
+
+
+  // Post image to Facebook
+  var postImage = function(imgURL, desc) {
+    require('publish_stream');
+
+    if (status === 'connected') {
+        FB.api('/me/photos', 'post', {
+            message: desc,
+            url:imgURL
+        }, function(response){
+            if (!response || response.error) {
+                // console.log(response)
+            } else {
+                // Sucess
+                // console.log('Post ID: ' + response.id);
+            }
+        });
+    } else {
+      login(postImage, [imgURL, desc]);
+    }
 
   };
 
