@@ -117,7 +117,7 @@ var FBKit = (function(){
 
 
   // Post image to Facebook
-  var postImage = function(imgURL, desc) {
+  var postImage = function(imgURL, desc, callback) {
     require('publish_stream');
 
     if (status === 'connected') {
@@ -126,10 +126,13 @@ var FBKit = (function(){
             url:imgURL
         }, function(response){
             if (!response || response.error) {
-                // console.log(response)
+                console.log(response);
             } else {
                 // Sucess
                 // console.log('Post ID: ' + response.id);
+                if (callback) {
+                  callback();
+                }
             }
         });
     } else {
