@@ -1,4 +1,6 @@
 var FBKit = (function(){
+  'use strict';
+
   var exports = {},
     status = 'unknown',
     user = {},
