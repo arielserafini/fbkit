@@ -4,7 +4,8 @@ var FBKit = (function(){
   var exports = {},
     status = 'unknown',
     user = {},
-    authResponse;
+    authResponse,
+    permissions = [];
 
   var init = function() {
     var FB = window.FB;
@@ -50,6 +51,17 @@ var FBKit = (function(){
 
   };
 
+  var require = function(perm) {
+    if (permissions.indexOf(perm) == -1) {
+      permissions.push(perm);
+    }
+  };
+
+  // Returns the permissions array as a comma separated string
+  var getPermissions = function() {
+    return permissions.join(',');
+  };
+
   // Exposes the user object
   var getUser = function() {
     return user;
@@ -78,7 +90,7 @@ var FBKit = (function(){
       } else {
         // Something went wrong.
       }
-    });
+    }, { scope: getPermissions() });
 
   };
 
