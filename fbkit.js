@@ -1,14 +1,20 @@
 var FBKit = (function(){
   'use strict';
 
-  var exports = {},
+  var console = {log:function(){}},
+    exports = {},
     status = 'unknown',
     user = {},
     authResponse,
     permissions = [],
     grantedPermissions;
 
+  var debug = function() {
+      console = window.console;
+  };
+
   var init = function() {
+
     var FB = window.FB;
 
     // Fails if the FB object is not found.
@@ -18,6 +24,7 @@ var FBKit = (function(){
 
     getLoginStatus();
 
+    exports.debug = debug;
     exports.login = login;
     exports.getUser = getUser;
     exports.postImage = postImage;
