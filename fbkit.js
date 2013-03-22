@@ -137,7 +137,7 @@ var FBKit = (function(){
             }
         });
     } else {
-      login(postImage, [imgURL, desc]);
+      login(postImage, [imgURL, desc, callback]);
     }
 
   };
