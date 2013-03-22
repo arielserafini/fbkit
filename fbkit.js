@@ -47,14 +47,14 @@ var FBKit = (function(){
 
         } else if (response.status === 'not_authorized') {
           console.log('User is logged in, but did not authorize the app.');
-          login();
+          // login();
           // authResponse = response.authResponse;
           // user.id = authResponse.userID;
           // console.log(status, authResponse, user);
         } else {
           // the user isn't logged in to Facebook.
           console.log('User is not logged in to Facebook.');
-          login();
+          // login();
         }
       });
 
@@ -102,6 +102,7 @@ var FBKit = (function(){
     FB.login(function(response) {
       if (response.authResponse) {
         console.log('Login/authorization successful!');
+        status = 'connected';
         getUserInfo();
         getGrantedPermissions();
 
