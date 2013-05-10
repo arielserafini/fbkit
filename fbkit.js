@@ -28,6 +28,7 @@ var FBKit = (function(){
     exports.login = login;
     exports.getUser = getUser;
     exports.postImage = postImage;
+    exports.getGrantedPermissions = getGrantedPermissions;
 
     return exports;
   };
@@ -73,9 +74,9 @@ var FBKit = (function(){
 
   var getGrantedPermissions = function() {
     FB.api('/me/permissions', function(response) {
-      grantedPermissions = response;
+      grantedPermissions = response.data[0];
 
-      console.log('granted: ', response);
+      console.log('granted: ', grantedPermissions);
     });
   };
 
